@@ -1,0 +1,7 @@
+{
+  "name": "GourmetAI - 智能菜單攝影優化師",
+  "description": "這是一款專為餐飲業者打造的 AI 工具。透過 Gemini 2.5 Flash Image 技術，能將隨手拍攝的平凡餐點照片，在保持食物主體不變的前提下，優化背景、燈光與質感，轉化為專業商業攝影等級的宣傳照。完全免費且隱私安全。",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
