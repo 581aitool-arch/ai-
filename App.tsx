@@ -29,8 +29,9 @@ const App: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    // 檢查 API KEY 是否存在
     const key = (import.meta as any).env.VITE_API_KEY;
-    const isActive = !!(key && key !== 'undefined' && typeof key === 'string');
+    const isActive = !!(key && key !== 'undefined' && typeof key === 'string' && key.length > 10);
     setIsKeyActive(isActive);
     
     if (isActive === false) {
@@ -156,12 +157,12 @@ const App: React.FC = () => {
                  <h3 className="font-black text-emerald-900 text-sm flex items-center gap-2">
                    <ShieldCheck className="w-4 h-4" /> 如何設定 API Key
                  </h3>
-                 <p className="text-xs text-emerald-700 leading-relaxed">
-                   1. 去 GitHub 頁面點 <b>Settings</b><br/>
-                   2. 點左側 <b>Secrets and variables</b> -> <b>Actions</b><br/>
-                   3. 新增 <b>New repository secret</b><br/>
-                   4. Name 填 <b>API_KEY</b>，Value 貼上您的 Gemini 金鑰。
-                 </p>
+                 <div className="text-xs text-emerald-700 leading-relaxed space-y-1">
+                   <p>1. 去 GitHub 頁面點 <b>Settings</b></p>
+                   <p>2. 點左側 <b>Secrets and variables</b> » <b>Actions</b></p>
+                   <p>3. 新增 <b>New repository secret</b></p>
+                   <p>4. Name 填 <b>API_KEY</b>，Value 貼上您的 Gemini 金鑰。</p>
+                 </div>
                </div>
                <button 
                 onClick={() => setShowGuide(false)}
