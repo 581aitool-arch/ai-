@@ -1,0 +1,52 @@
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main", "master"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Inject API Key & Prepare Environment
+        run: |
+          # 建立一個臨時的 package.json 讓打包工具運行
+          echo '{"type":"module","dependencies":{"@google/genai":"latest","react":"latest","react-dom":"latest","lucide-react":"latest"},"devDependencies":{"vite":"latest","@vitejs/plugin-react":"latest","typescript":"latest"}}' > package.json
+          
+          # 將程式碼中的 API Key 替換為 Secret
+          find . -type f \( -name "*.tsx" -o -name "*.ts" \) -exec sed -i "s/process.env.API_KEY/'${{ secrets.API_KEY }}'/g" {} +
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build with Vite
+        run: |
+          # 使用 npx 直接執行 vite 打包，不需要預先設定 vite.config.ts
+          npx vite build --base ./
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
