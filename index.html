@@ -29,6 +29,8 @@
 </head>
   <body class="bg-slate-50 text-slate-900 antialiased">
     <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
+    <!-- 使用相對路徑 ./ 確保在各種部署環境下都能正確找到進入點 -->
+    <script type="module" src="./index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
 </html>
