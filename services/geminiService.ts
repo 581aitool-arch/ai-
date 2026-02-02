@@ -1,13 +1,9 @@
-
 import { GoogleGenAI } from "@google/genai";
 
 export class GeminiService {
   private getApiKey(): string {
-    // 部署腳本會將此處的 process.env.API_KEY 替換為真實字串
-    const key = process.env.API_KEY;
-    if (!key || key === 'undefined' || typeof key !== 'string' || key.includes('process.env')) {
-      return '';
-    }
+    // Vite 標準環境變數讀取方式
+    const key = (import.meta as any).env.VITE_API_KEY || "";
     return key;
   }
 
