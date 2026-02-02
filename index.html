@@ -4,11 +4,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GourmetAI - 智能菜單攝影師</title>
+    <title>GourmetAI - 您的專屬 AI 美食攝影師</title>
+    <meta name="description" content="免費將您的餐飲照片優化為商業級大片，專為小店主打造的行銷利器。">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
       body { font-family: 'Noto Sans TC', sans-serif; }
+      /* 優化平滑捲動與選擇顏色 */
+      html { scroll-behavior: smooth; }
+      ::selection { background: #4f46e5; color: white; }
     </style>
   <script type="importmap">
 {
@@ -21,8 +25,12 @@
   }
 }
 </script>
+<link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-slate-50 text-slate-900">
+  <body class="bg-slate-50 text-slate-900 antialiased">
     <div id="root"></div>
-  </body>
+    <!-- 核心入口檔案 -->
+    <script type="module" src="./index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
 </html>

@@ -2,25 +2,30 @@
 import { GoogleGenAI } from "@google/genai";
 
 export class GeminiService {
-  private ai: GoogleGenAI;
-
-  constructor() {
-    this.ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+  // 檢查 API Key 是否已正確注入 (支援 GitHub Actions 的 sed 替換)
+  private getApiKey(): string {
+    const key = process.env.API_KEY;
+    // 如果 key 是 undefined 或者還是原本的字串樣式，表示未注入成功
+    if (!key || key === 'undefined' || typeof key !== 'string' || key.includes('process.env')) {
+      return '';
+    }
+    return key;
   }
 
   async optimizeFoodImage(base64Image: string, stylePrompt: string, userPrompt: string = ""): Promise<string | null> {
     try {
-      // 確保 API Key 存在
-      if (!process.env.API_KEY) throw new Error("API Key is missing");
+      const apiKey = this.getApiKey();
+      if (!apiKey) {
+        throw new Error("系統未偵測到 API Key。請確保已在 GitHub Secrets 中設定 API_KEY。");
+      }
 
-      // 重新實例化以獲取最新 Key (根據規範)
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const ai = new GoogleGenAI({ apiKey });
       
       const prompt = `
         TASK: Optimize this food photo for professional commercial use.
         CONSTRAINTS: 
-        1. Keep the EXACT food items and their arrangement from the original photo. Do not change the type of food (e.g., if it is a burger, keep it as this specific burger).
-        2. Enhance the background, lighting, and textures to make it look like a professional studio advertisement.
+        1. Keep the EXACT food items and their arrangement from the original photo. Do not change the type of food.
+        2. Enhance the background, lighting, and textures to make it look like a high-end studio advertisement.
         3. STYLE INSTRUCTION: ${stylePrompt}
         4. ADDITIONAL USER REQUESTS: ${userPrompt}
         5. The output must be an image only.
